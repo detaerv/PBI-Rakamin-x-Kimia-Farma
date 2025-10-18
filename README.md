@@ -1,9 +1,259 @@
-# 📊 Tutorial Lengkap: Membuat Dashboard Kimia Farma
-## Dari Script SQL hingga Dashboard Interaktif di Looker Studio
+# 📊 Kimia Farma Business Intelligence Dashboard
+## Complete Guide: Dataset, SQL Script, dan Dashboard Interaktif
 
 ---
 
-## 🎯 OVERVIEW
+## 📑 DAFTAR ISI
+
+### BAGIAN 1: DATASET DOCUMENTATION
+1. [Dataset Overview](#dataset-overview)
+2. [Dataset Contents](#dataset-contents)
+3. [Download Instructions](#download-instructions)
+4. [Data Quality & License](#data-quality)
+
+### BAGIAN 2: TUTORIAL DASHBOARD
+5. [Persiapan BigQuery](#persiapan-bigquery)
+6. [Koneksi ke Looker Studio](#koneksi-looker-studio)
+7. [Membuat Data Sources](#membuat-data-sources)
+8. [Page 1: Executive Summary](#page-1-executive-summary)
+9. [Page 2: Branch Performance](#page-2-branch-performance)
+10. [Page 3: Product Analysis](#page-3-product-analysis)
+11. [Page 4: Customer Insights](#page-4-customer-insights)
+12. [Filters & Styling](#filters-styling)
+13. [Publish & GitHub Setup](#publish-github)
+
+---
+
+# BAGIAN 1: DATASET DOCUMENTATION
+
+## Dataset Overview
+
+### 🎯 Quick Info
+- **Project Name:** Kimia Farma Business Analytics
+- **Periode Data:** 2020-2023
+- **Total Size:** ~45 MB (compressed)
+- **Format:** CSV Files
+- **Purpose:** Educational - Data Analytics Portfolio
+
+### 📥 Full Dataset Access
+
+Full dataset tersedia di Google Drive untuk analisis lengkap.
+
+**📥 [DOWNLOAD FULL DATASET (45MB)](https://drive.google.com/drive/u/0/folders/1L318uziHRRDufX6ybwas0--bAEbISA8B)**
+
+---
+
+## Dataset Contents
+
+Dataset ini berisi data transaksi Kimia Farma periode **2020-2023** yang terdiri dari **4 file utama**:
+
+### 1. `kf_final_transaction.csv`
+**Deskripsi:** Data transaksi lengkap dari seluruh cabang Kimia Farma
+
+**Spesifikasi:**
+- **Jumlah Records:** 150,000+ transactions
+- **Ukuran File:** ~30 MB
+- **Periode Data:** 2020-2023
+- **Format:** CSV, UTF-8 encoding
+
+**Kolom:**
+| Column Name | Type | Description |
+|------------|------|-------------|
+| `transaction_id` | STRING | Unique transaction identifier |
+| `date` | DATE | Transaction date (YYYY-MM-DD) |
+| `branch_id` | STRING | Branch identifier (FK to branches) |
+| `customer_name` | STRING | Customer name |
+| `product_id` | STRING | Product identifier (FK to products) |
+| `price` | FLOAT | Product price (IDR) |
+| `discount_percentage` | FLOAT | Discount applied (0-100) |
+| `rating` | FLOAT | Transaction rating (1-5) |
+
+**Sample Data:**
+```csv
+transaction_id,date,branch_id,customer_name,product_id,price,discount_percentage,rating
+TRX001,2023-01-15,CAB001,Ahmad Yani,PRD123,125000,10,4.5
+TRX002,2023-01-15,CAB002,Siti Nurhaliza,PRD456,85000,5,4.8
+```
+
+---
+
+### 2. `kf_product.csv`
+**Deskripsi:** Master data produk yang dijual di Kimia Farma
+
+**Spesifikasi:**
+- **Jumlah Records:** 500+ products
+- **Ukuran File:** ~2 MB
+- **Format:** CSV, UTF-8 encoding
+
+**Kolom:**
+| Column Name | Type | Description |
+|------------|------|-------------|
+| `product_id` | STRING | Unique product identifier |
+| `product_name` | STRING | Product name |
+| `category` | STRING | Product category |
+| `sub_category` | STRING | Product sub-category |
+
+**Sample Data:**
+```csv
+product_id,product_name,category,sub_category
+PRD123,Paracetamol 500mg,Obat,Analgesik
+PRD456,Vitamin C 1000mg,Suplemen,Vitamin
+```
+
+---
+
+### 3. `kf_kantor_cabang.csv`
+**Deskripsi:** Informasi lengkap tentang cabang-cabang Kimia Farma
+
+**Spesifikasi:**
+- **Jumlah Records:** 50 branches
+- **Ukuran File:** ~500 KB
+- **Coverage:** Seluruh Indonesia
+- **Format:** CSV, UTF-8 encoding
+
+**Kolom:**
+| Column Name | Type | Description |
+|------------|------|-------------|
+| `branch_id` | STRING | Unique branch identifier |
+| `branch_name` | STRING | Branch name |
+| `kota` | STRING | City location |
+| `provinsi` | STRING | Province location |
+| `rating` | FLOAT | Branch rating (1-5) |
+
+**Sample Data:**
+```csv
+branch_id,branch_name,kota,provinsi,rating
+CAB001,Kimia Farma Jakarta Pusat,Jakarta,DKI Jakarta,4.5
+CAB002,Kimia Farma Surabaya,Surabaya,Jawa Timur,4.7
+```
+
+---
+
+### 4. `kf_inventory.csv`
+**Deskripsi:** Data inventori produk di setiap cabang
+
+**Spesifikasi:**
+- **Jumlah Records:** Varies by branch and product
+- **Ukuran File:** ~12 MB
+- **Format:** CSV, UTF-8 encoding
+
+**Kolom:**
+| Column Name | Type | Description |
+|------------|------|-------------|
+| `inventory_id` | STRING | Unique inventory record ID |
+| `branch_id` | STRING | Branch identifier |
+| `product_id` | STRING | Product identifier |
+| `stock_quantity` | INTEGER | Available stock |
+| `opname_date` | DATE | Stock opname date |
+
+**Sample Data:**
+```csv
+inventory_id,branch_id,product_id,stock_quantity,opname_date
+INV001,CAB001,PRD123,150,2023-01-31
+INV002,CAB001,PRD456,200,2023-01-31
+```
+
+---
+
+## Download Instructions
+
+### Method 1: Direct Download (Recommended)
+1. Click the download link above
+2. Click "Download" button in Google Drive
+3. Wait for download to complete
+4. Extract ZIP file if compressed
+
+### Method 2: Using gdown (Python)
+```bash
+pip install gdown
+
+# Download using file ID
+gdown --id YOUR_FILE_ID -O kimia_farma_dataset.zip
+
+# Extract
+unzip kimia_farma_dataset.zip -d data/
+```
+
+### Method 3: Using wget
+```bash
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=YOUR_FILE_ID' -O dataset.zip
+```
+
+### 🗂️ File Structure After Download
+
+```
+kimia-farma-dataset/
+├── kf_final_transaction.csv    (30 MB)
+├── kf_product.csv               (2 MB)
+├── kf_kantor_cabang.csv         (500 KB)
+├── kf_inventory.csv             (12 MB)
+└── README.txt
+```
+
+---
+
+## Data Quality
+
+### Completeness:
+- ✅ No missing transaction IDs
+- ✅ All transactions have valid dates
+- ✅ All foreign keys validated
+- ⚠️ Some optional fields may be null (e.g., discount_percentage)
+
+### Data Ranges:
+- **Dates:** 2020-01-01 to 2023-12-31
+- **Prices:** Rp 5,000 - Rp 1,500,000
+- **Discounts:** 0% - 50%
+- **Ratings:** 1.0 - 5.0
+
+### Known Issues:
+- None reported. Data has been cleaned and validated.
+
+---
+
+## 🔒 Data License & Usage
+
+### License:
+This dataset is provided for **educational purposes only** as part of Rakamin Academy Data Analyst Bootcamp.
+
+### Terms of Use:
+✅ **Allowed:**
+- Educational projects
+- Portfolio development
+- Learning and practice
+- Non-commercial analysis
+
+❌ **Not Allowed:**
+- Commercial use
+- Redistribution without permission
+- Claiming as original work
+
+### Attribution:
+```
+Dataset: Kimia Farma Business Analytics
+Source: Rakamin Academy - Data Analyst Bootcamp
+Year: 2024-2025
+```
+
+---
+
+## 🛠️ Tools Compatibility
+
+This dataset is compatible with:
+
+- ✅ **Google BigQuery** (Recommended)
+- ✅ **PostgreSQL / MySQL**
+- ✅ **Python Pandas**
+- ✅ **R**
+- ✅ **Excel** (for smaller subsets)
+- ✅ **Tableau / Power BI**
+- ✅ **Looker Studio**
+
+---
+
+# BAGIAN 2: TUTORIAL DASHBOARD
+
+## 🎯 Overview Tutorial
 
 ### Yang Akan Dibuat:
 - Dashboard interaktif dengan 12+ komponen
@@ -17,34 +267,42 @@
 - Google Cloud Platform (BigQuery)
 - Looker Studio (Google Data Studio)
 - Akun Google
+- Dataset yang sudah didownload
 
 ---
 
-## 📋 DAFTAR ISI
+## Persiapan BigQuery
 
-1. [Persiapan BigQuery](#1-persiapan-bigquery)
-2. [Koneksi ke Looker Studio](#2-koneksi-ke-looker-studio)
-3. [Membuat Data Sources](#3-membuat-data-sources)
-4. [Desain Dashboard - Page 1: Executive Summary](#4-page-1-executive-summary)
-5. [Desain Dashboard - Page 2: Branch Performance](#5-page-2-branch-performance)
-6. [Desain Dashboard - Page 3: Product Analysis](#6-page-3-product-analysis)
-7. [Desain Dashboard - Page 4: Customer Insights](#7-page-4-customer-insights)
-8. [Menambahkan Filters & Controls](#8-filters-controls)
-9. [Styling & Branding](#9-styling-branding)
-10. [Publish & Share ke GitHub](#10-publish-share)
-
----
-
-## 1. PERSIAPAN BIGQUERY
-
-### Step 1.1: Buka BigQuery Console
+### Step 1: Buka BigQuery Console
 ```
 1. Kunjungi: https://console.cloud.google.com/bigquery
 2. Login dengan akun Google Anda
 3. Pastikan project "rakamin-academi-data-analyst" sudah dipilih
 ```
 
-### Step 1.2: Jalankan Cleanup Script
+### Step 2: Create Dataset
+```sql
+CREATE SCHEMA IF NOT EXISTS `rakamin-academi-data-analyst.kimia_farma`;
+```
+
+### Step 3: Upload CSV Files
+
+**Upload setiap file CSV:**
+1. Go to BigQuery Console
+2. Select dataset `kimia_farma`
+3. Click **"Create Table"**
+4. Source: Upload → Browse file
+5. File format: CSV
+6. Table name:
+   - `kf_final_transaction`
+   - `kf_product`
+   - `kf_kantor_cabang`
+   - `kf_inventory`
+7. **Schema:** Auto-detect ✅
+8. Click **"Create Table"**
+
+### Step 4: Jalankan Cleanup Script
+
 **PENTING: Jalankan ini TERLEBIH DAHULU!**
 
 ```sql
@@ -65,13 +323,15 @@ DROP TABLE IF EXISTS `rakamin-academi-data-analyst.kimia_farma.kf_analysis`;
 
 Klik **RUN** ▶️
 
-### Step 1.3: Jalankan Script Utama
-Copy semua script SQL dari dokumen yang sudah ada, lalu paste ke BigQuery editor dan RUN.
+### Step 5: Jalankan Script Utama
 
-### Step 1.4: Verifikasi Tabel
+Copy semua script SQL dari file `kimia_farma_analysis.sql`, paste ke BigQuery editor dan **RUN**.
+
+### Step 6: Verifikasi Tabel
+
 Setelah script selesai, pastikan tabel-tabel ini ada di dataset `kimia_farma`:
 
-✅ Checklist Tabel:
+✅ **Checklist Tabel:**
 - [ ] kf_analysis (base table)
 - [ ] v_summary_kpi
 - [ ] v_top_branches
@@ -86,20 +346,20 @@ Setelah script selesai, pastikan tabel-tabel ini ada di dataset `kimia_farma`:
 - [ ] v_rating_gap_analysis
 
 **Cara Cek:**
-Lihat di panel kiri BigQuery → Dataset kimia_farma → Expand → Lihat semua tabel
+Panel kiri BigQuery → Dataset kimia_farma → Expand → Lihat semua tabel
 
 ---
 
-## 2. KONEKSI KE LOOKER STUDIO
+## Koneksi Looker Studio
 
-### Step 2.1: Buka Looker Studio
+### Step 1: Buka Looker Studio
 ```
 1. Kunjungi: https://lookerstudio.google.com
 2. Login dengan akun Google yang SAMA dengan BigQuery
 3. Tunggu hingga halaman utama muncul
 ```
 
-### Step 2.2: Buat Report Baru
+### Step 2: Buat Report Baru
 ```
 1. Klik tombol "Create" (pojok kiri atas)
 2. Pilih "Report"
@@ -108,45 +368,37 @@ Lihat di panel kiri BigQuery → Dataset kimia_farma → Expand → Lihat semua 
 
 ---
 
-## 3. MEMBUAT DATA SOURCES
+## Membuat Data Sources
 
-**PENTING:** Anda perlu membuat **5 Data Source terpisah** untuk performa optimal.
+**PENTING:** Buat **8 Data Source terpisah** untuk performa optimal.
 
 ### Data Source 1: KPI Summary
 
-**Langkah-langkah:**
-1. Di popup "Add data to report", cari dan klik **"BigQuery"**
+1. Di popup "Add data to report", klik **"BigQuery"**
 2. Pilih **"CUSTOM QUERY"**
 3. Pilih Project: `rakamin-academi-data-analyst`
-4. Paste query ini:
+4. Paste query:
 
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_summary_kpi`
 ```
 
-5. Klik **"CONNECT"**
-6. Rename data source menjadi: **"KPI Summary"**
-7. Klik **"ADD TO REPORT"**
+5. **CONNECT** → Rename: **"KPI Summary"** → **ADD TO REPORT**
 
 ### Data Source 2: Top Branches
 
-**Jangan close window!** Tambah data source kedua:
-
-1. Klik **"Resource"** → **"Manage added data sources"**
-2. Klik **"ADD A DATA SOURCE"** (tombol biru)
-3. Pilih **BigQuery** → **CUSTOM QUERY**
-4. Pilih project yang sama
-5. Paste query:
+1. **Resource** → **Manage added data sources**
+2. **ADD A DATA SOURCE**
+3. BigQuery → CUSTOM QUERY
+4. Paste query:
 
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_top_branches`
 ```
 
-6. **CONNECT** → Rename: **"Top Branches"** → **ADD TO REPORT**
+Name: **"Top Branches"**
 
 ### Data Source 3: Geographic Analysis
-
-Ulangi langkah yang sama:
 
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_geographic_analysis`
@@ -196,7 +448,7 @@ Name: **"Day Performance"**
 
 ---
 
-## 4. PAGE 1: EXECUTIVE SUMMARY
+## Page 1: Executive Summary
 
 ### Layout Overview
 ```
@@ -221,72 +473,65 @@ Name: **"Day Performance"**
    - Warna: #0066CC (Biru)
    - Posisi: Top-left
 
-2. **Insert Text** (untuk subtitle)
+2. **Insert Text** (subtitle)
    - Ketik: "Periode 2020-2023 | Data Analytics Report"
    - Font: Roboto Regular, Size: 14
-   - Warna: #666666 (Abu)
+   - Warna: #666666
 
 ### B. Buat KPI Scorecards (5 Cards)
 
 **KPI 1: Total Revenue**
 
-1. Klik **"Add a chart"** → Pilih **"Scorecard"**
-2. Di panel kanan (Setup):
+1. **Add a chart** → **Scorecard**
+2. Setup:
    - Data Source: **KPI Summary**
    - Metric: **total_revenue_net**
-3. Di tab **STYLE**:
+3. Style:
    - Metric Name: "Total Revenue (Net)"
-   - Number Format: Currency → Custom → IDR
+   - Number Format: Currency → IDR
    - Compact Numbers: ON
    - Font Size: 36
 
 **KPI 2: Total Profit**
-- Data Source: KPI Summary
 - Metric: **total_profit**
 - Label: "Total Profit"
 - Format: Currency (IDR)
 
 **KPI 3: Total Transactions**
 - Metric: **total_transactions**
-- Label: "Total Transaksi"
 - Format: Number
 
 **KPI 4: Total Customers**
 - Metric: **total_customers**
-- Label: "Total Pelanggan"
 - Format: Number
 
 **KPI 5: Profit Margin**
 - Metric: **profit_margin_percentage**
-- Label: "Profit Margin %"
 - Format: Percent
 
 **Layout Tips:**
-- Susun 5 scorecard dalam 1 baris horizontal
+- Susun 5 scorecard horizontal
 - Spacing: 20px antar card
 - Height: 120px semua card
-- Background color: Putih dengan shadow
 
 ### C. Revenue & Profit Trend (Time Series)
 
 1. **Add a chart** → **Time series chart**
 2. Setup:
    - Data Source: **Monthly Trends**
-   - Date Range Dimension: Buat kombinasi year + month
-     * Klik "Create field" → Ketik formula:
+   - Date Range: Create field
      ```
      PARSE_DATE('%Y-%m', CONCAT(CAST(year AS STRING), '-', 
      LPAD(CAST(month AS STRING), 2, '0')))
      ```
-     * Name: "date_field"
-   - Metric 1: **total_revenue** (Line - Biru)
-   - Metric 2: **total_profit** (Line - Hijau)
+     Name: "date_field"
+   - Metric 1: **total_revenue** (Biru)
+   - Metric 2: **total_profit** (Hijau)
 
 3. Style:
    - Show legend: Bottom
    - Show data labels: ON
    - Line width: 3px
-   - Smooth line: Medium
 
 ### D. Top 5 Provinces (Bar Chart)
 
@@ -295,13 +540,12 @@ Name: **"Day Performance"**
    - Data Source: **Geographic Analysis**
    - Dimension: **provinsi**
    - Metric: **total_revenue**
-   - Sort: total_revenue DESC
-   - Row limit: 5
+   - Sort: DESC
+   - Limit: 5
 
 3. Style:
-   - Bar color: Gradient (hijau muda → hijau tua)
+   - Gradient color (hijau)
    - Show data labels: ON
-   - Axis title: "Total Revenue (IDR)"
 
 ### E. Profit Margin Gauge
 
@@ -311,29 +555,25 @@ Name: **"Day Performance"**
    - Metric: **profit_margin_percentage**
 
 3. Style:
-   - Min: 0
-   - Max: 100
    - Green zone: 20-30
-   - Yellow zone: 15-20
-   - Red zone: 0-15
+   - Yellow: 15-20
+   - Red: 0-15
 
 ---
 
-## 5. PAGE 2: BRANCH PERFORMANCE
+## Page 2: Branch Performance
 
 ### Buat Page Baru
 
-1. Klik **"Page"** → **"New page"**
+1. **Page** → **New page**
 2. Rename: "Branch Performance"
 
 ### Layout
 ```
 ┌─────────────────────────────────────────────────┐
 │         Top 10 Branches Performance             │
-│              (Detailed Table)                   │
 ├──────────────────────┬─────────────────────────┤
 │   Geographic Map     │  Rating Gap Analysis    │
-│   (Indonesia)        │   (Alert Table)         │
 └──────────────────────┴─────────────────────────┘
 ```
 
@@ -342,7 +582,7 @@ Name: **"Day Performance"**
 1. **Add a chart** → **Table**
 2. Setup:
    - Data Source: **Top Branches**
-   - Dimensions & Metrics:
+   - Columns:
      * branch_name
      * kota
      * provinsi
@@ -352,37 +592,30 @@ Name: **"Day Performance"**
      * avg_rating_cabang
    - Sort: total_profit DESC
 
-3. Style:
-   - Table header: Background #0066CC, Text white
-   - Row numbers: Show
-   - Pagination: 10 rows per page
-   
-4. **Conditional Formatting** (PENTING!):
-   - Klik kolom **profit_margin_pct**
-   - Add conditional formatting:
-     * Jika > 20 → Background hijau muda
-     * Jika 15-20 → Background kuning
-     * Jika < 15 → Background merah muda
+3. **Conditional Formatting:**
+   - **profit_margin_pct**:
+     * > 20 → Hijau
+     * 15-20 → Kuning
+     * < 15 → Merah
 
 ### B. Geographic Map
 
-1. **Add a chart** → **Geo chart** → **Filled map**
+1. **Add a chart** → **Geo chart**
 2. Setup:
    - Data Source: **Geographic Analysis**
    - Location: **provinsi**
-   - Size metric: **total_revenue**
-   - Color metric: **profit_margin_pct**
+   - Size: **total_revenue**
+   - Color: **profit_margin_pct**
 
 3. Style:
    - Area: Indonesia
-   - Color gradient: Merah (low) → Hijau (high)
-   - Show legend: Right
+   - Gradient: Merah → Hijau
 
 ### C. Rating Gap Analysis Table
 
-**INI SANGAT PENTING untuk insight bisnis!**
+**PENTING untuk business insights!**
 
-1. **Add a chart** → **Table with bars**
+1. **Add a chart** → **Table**
 2. Setup:
    - Data Source: **Rating Gap Analysis**
    - Columns:
@@ -394,58 +627,32 @@ Name: **"Day Performance"**
      * status_cabang
 
 3. **Conditional Formatting:**
-   - Kolom **rating_gap**:
-     * Jika > 0.5 → Background MERAH (Urgent!)
-     * Jika 0.3-0.5 → Background ORANYE
-     * Jika < 0.3 → Background HIJAU
-   
-   - Kolom **status_cabang**:
-     * "Perlu Perhatian Urgent" → Text merah bold
-     * "Perlu Improvement" → Text oranye
-     * "Normal" → Text hijau
-
-4. **Add Text Annotation:**
-   - Insert → Text
-   - Tulis: "⚠️ Cabang dengan rating gap tinggi memerlukan improvement service quality"
-   - Posisi: Di atas tabel
+   - **rating_gap**:
+     * > 0.5 → MERAH
+     * 0.3-0.5 → ORANYE
+     * < 0.3 → HIJAU
 
 ---
 
-## 6. PAGE 3: PRODUCT ANALYSIS
+## Page 3: Product Analysis
 
 ### Buat Page Baru
-1. **Page** → **New page** → Name: "Product & Sales"
-
-### Layout
-```
-┌──────────────────────┬─────────────────────────┐
-│  Top 20 Products     │  Price Segment Analysis │
-│   (Bar Chart)        │     (Pie Chart)         │
-├──────────────────────┼─────────────────────────┤
-│  Discount Impact     │  Day of Week Performance│
-│  (Combo Chart)       │   (Column Chart)        │
-└──────────────────────┴─────────────────────────┘
-```
+**Page** → **New page** → "Product & Sales"
 
 ### A. Top 20 Products
 
-1. **Add chart** → **Bar chart** (Horizontal)
+1. **Bar chart** (Horizontal)
 2. Setup:
    - Data Source: **Product Analysis**
    - Dimension: **product_name**
    - Metric: **total_profit**
-   - Sort: DESC
    - Limit: 20
-
-3. Style:
-   - Color: Gradient biru
-   - Show values: ON
 
 ### B. Price Segment Performance
 
-1. **Add chart** → **Pie chart**
+1. **Pie chart**
 2. Setup:
-   - Data Source: Buat data source baru dari query:
+   - Data Source: Create new:
    ```sql
    SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_price_point_analysis`
    ```
@@ -453,281 +660,246 @@ Name: **"Day Performance"**
    - Dimension: **price_segment**
    - Metric: **total_revenue**
 
-3. Style:
-   - Donut chart: ON
-   - Hole size: 0.5
-   - Show labels: Percentage & value
-   - Colors: Custom 5 warna berbeda
+3. Style: Donut chart
 
 ### C. Discount Impact Analysis
 
-1. **Add chart** → **Combo chart**
+1. **Combo chart**
 2. Setup:
    - Data Source: **Discount Analysis**
    - Dimension: **discount_range**
-   - Left Y-axis (Bars): **total_revenue**
-   - Right Y-axis (Line): **profit_margin_pct**
-
-3. Style:
-   - Bar color: Biru
-   - Line color: Orange
-   - Show both axes: ON
+   - Left Y-axis: **total_revenue**
+   - Right Y-axis: **profit_margin_pct**
 
 ### D. Day of Week Performance
 
-1. **Add chart** → **Column chart**
+1. **Column chart**
 2. Setup:
    - Data Source: **Day Performance**
    - Dimension: **day_name**
    - Metric: **total_revenue**
-   - Sort by: **day_number** ASC
-
-3. Style:
-   - Colors: Weekdays (biru), Weekend (orange)
+   - Sort by: **day_number**
 
 ---
 
-## 7. PAGE 4: CUSTOMER INSIGHTS
-
-### Buat Page Baru
-1. **Page** → **New page** → Name: "Customer Insights"
+## Page 4: Customer Insights
 
 ### A. Customer Segmentation
 
-1. **Add chart** → **Pie chart**
+1. **Pie chart**
 2. Setup:
-   - Data Source: Buat dari query:
+   - Data Source: Create:
    ```sql
    SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_customer_segmentation`
    ```
-   - Name: "Customer Segmentation"
    - Dimension: **customer_segment**
    - Metric: COUNT(**customer_name**)
 
-3. Style - Custom Colors:
-   - VIP: #FFD700 (Gold)
-   - Premium: #C0C0C0 (Silver)
-   - Regular: #CD7F32 (Bronze)
-   - Basic: #808080 (Gray)
+3. Custom Colors:
+   - VIP: #FFD700
+   - Premium: #C0C0C0
+   - Regular: #CD7F32
+   - Basic: #808080
 
-### B. Monthly Revenue with YoY Growth
+### B. Monthly Revenue with YoY
 
-1. **Add chart** → **Time series with forecast**
+1. **Time series**
 2. Setup:
    - Data Source: **Monthly Trends**
-   - Date: year + month (gunakan formula seperti sebelumnya)
-   - Metrics:
-     * total_revenue (Line 1)
-     * revenue_growth_yoy (Line 2)
-
-3. Style:
-   - Enable trend line: ON
-   - Show reference line: ON (at 0 for growth)
+   - Date: Use date_field
+   - Metrics: total_revenue, revenue_growth_yoy
 
 ---
 
-## 8. FILTERS & CONTROLS
+## Filters & Styling
 
-### A. Date Range Filter
+### A. Add Filters
 
-1. **Add a control** → **Date range control**
-2. Setup:
-   - Auto date range: Last 12 months
-   - Apply to: All charts on all pages
+**Date Range Filter:**
+1. **Add a control** → **Date range**
+2. Auto: Last 12 months
+3. Apply to: All pages
 
-### B. Province Dropdown
+**Province Dropdown:**
+1. **Drop-down list**
+2. Dimension: **provinsi**
+3. Multiple selections: ON
 
-1. **Add a control** → **Drop-down list**
-2. Setup:
-   - Dimension: **provinsi** (dari Geographic Analysis)
-   - Control field label: "Filter by Province"
-   - Allow multiple selections: ON
-   - Include "All" option: ON
+**Year Selector:**
+1. **Fixed-size list**
+2. Dimension: **year**
+3. Single selection
 
-### C. Year Selector
+### B. Theme Setup
 
-1. **Add a control** → **Fixed-size list**
-2. Setup:
-   - Dimension: **year** (dari KPI Summary)
-   - Display horizontally
-   - Single selection
-
----
-
-## 9. STYLING & BRANDING
-
-### A. Theme Setup
-
-1. **Theme and layout** (menu atas)
-2. Pilih template: **"Simple Light"**
-3. Customize:
-   - Primary color: **#0066CC** (Biru Kimia Farma)
-   - Secondary color: **#00A651** (Hijau)
+1. **Theme and layout**
+2. Template: **Simple Light**
+3. Colors:
+   - Primary: **#0066CC**
+   - Secondary: **#00A651**
    - Background: **#F8F9FA**
 
-### B. Consistent Styling
+### C. Consistent Styling
 
-**Untuk semua charts:**
-- Font family: Roboto
-- Header font size: 16px
+All charts:
+- Font: Roboto
 - Border: 1px solid #E0E0E0
 - Border radius: 8px
-- Shadow: ON (subtle)
-
-### C. Add Logo (Optional)
-
-1. **Insert** → **Image**
-2. Upload logo Kimia Farma atau insert via URL
-3. Posisi: Top-left di semua pages
-4. Size: 120x40px
+- Shadow: ON
 
 ---
 
-## 10. PUBLISH & SHARE
+## Publish GitHub
 
-### A. Finalisasi Dashboard
+### A. Publish Dashboard
 
-1. Review semua pages
-2. Test semua filters
-3. Check responsive view (View → Device → Mobile)
-
-### B. Publish Dashboard
-
-1. Klik **"Share"** (kanan atas)
-2. **"Get report link"**
-3. Access settings:
-   - **"Anyone with the link can view"**
-   - Enable "Email viewers"
+1. **Share** (kanan atas)
+2. **Get report link**
+3. Settings: **Anyone with link can view**
 4. **Copy link**
 
-### C. Setup untuk GitHub
+### B. Screenshot Dashboard
 
-**Buat Repository baru:**
-
-1. Buka GitHub → New Repository
-2. Name: `kimia-farma-dashboard`
-3. Add README.md dengan struktur:
-
-```markdown
-# 📊 Kimia Farma Business Intelligence Dashboard
-
-## 🔴 LIVE DASHBOARD
-**[VIEW DASHBOARD HERE](paste-your-looker-link)**
-
-## 📸 Preview
-[Tambahkan screenshots]
-
-## 🛠️ Tech Stack
-- Google BigQuery
-- Looker Studio
-- SQL
-
-## 📊 Dashboard Features
-- 4 Interactive Pages
-- 12+ Visualizations
-- Real-time Filtering
-- Geographic Analysis
-- Customer Segmentation
-
-## 📁 Files
-- `sql/kimia_farma_analysis.sql` - Complete SQL script
-- `screenshots/` - Dashboard screenshots
-- `README.md` - Documentation
-```
-
-### D. Ambil Screenshots
-
-**Untuk setiap page dashboard:**
-
-1. Full screen mode (tekan F11)
+**Untuk setiap page:**
+1. Full screen (F11)
 2. Screenshot:
    - Windows: Win + Shift + S
    - Mac: Cmd + Shift + 4
-3. Save sebagai:
+3. Save as:
    - `page1-executive-summary.png`
    - `page2-branch-performance.png`
    - `page3-product-analysis.png`
    - `page4-customer-insights.png`
 
-4. Upload ke folder `screenshots/` di GitHub
+### C. GitHub Repository Structure
 
-### E. Upload SQL Script
+```
+kimia-farma-dashboard/
+├── data/
+│   ├── sample/
+│   │   └── (sample CSV files)
+│   └── DATASET.md              # This documentation
+├── sql/
+│   └── kimia_farma_analysis.sql
+├── screenshots/
+│   ├── page1-executive-summary.png
+│   ├── page2-branch-performance.png
+│   ├── page3-product-analysis.png
+│   └── page4-customer-insights.png
+├── README.md
+└── TUTORIAL.md
+```
 
-1. Buat folder `sql/` di repository
-2. Upload file SQL dengan nama: `kimia_farma_analysis.sql`
+### D. README.md Template
+
+```markdown
+# 📊 Kimia Farma Business Intelligence Dashboard
+
+## 🔴 LIVE DASHBOARD
+**[VIEW DASHBOARD](your-looker-studio-link)**
+
+## 📥 Dataset
+**[Download Dataset (45MB)](your-google-drive-link)**
+
+## 📸 Dashboard Preview
+![Executive Summary](screenshots/page1-executive-summary.png)
+
+## 🛠️ Tech Stack
+- Google BigQuery
+- Looker Studio
+- SQL Analytics
+
+## 📊 Features
+- 4 Interactive Pages
+- 12+ Visualizations
+- Real-time Filtering
+- Geographic Analysis
+
+## 📁 Files
+- `sql/` - SQL analysis scripts
+- `screenshots/` - Dashboard previews
+- `data/DATASET.md` - Complete dataset documentation
+```
 
 ---
 
 ## ✅ CHECKLIST FINAL
 
-Sebelum submit, pastikan:
-
 **BigQuery:**
-- [ ] Semua 12 tabel berhasil dibuat
-- [ ] Tidak ada error saat query
-- [ ] Data terlihat valid
+- [ ] Dataset uploaded
+- [ ] 12 tabel berhasil dibuat
+- [ ] Queries berjalan tanpa error
 
 **Looker Studio:**
-- [ ] 4 pages lengkap
-- [ ] Semua chart menampilkan data
-- [ ] Filters berfungsi
+- [ ] 4 pages complete
+- [ ] All charts display data
+- [ ] Filters working
 - [ ] Mobile responsive
-- [ ] Link dashboard bisa diakses public
+- [ ] Public link active
 
 **GitHub:**
-- [ ] README.md lengkap
+- [ ] README.md complete
 - [ ] Screenshots uploaded
 - [ ] SQL script uploaded
-- [ ] Link dashboard tercantum
+- [ ] Dataset link included
+- [ ] Dashboard link working
 
 ---
 
 ## 🎯 TIPS SUKSES
 
-### Untuk Portfolio:
-1. ✨ **Highlight business insights** - jelaskan temuan penting
-2. 📊 **Screenshot berkualitas tinggi** - full HD
-3. 🎨 **Design yang clean** - hindari clutter
-4. 📝 **Documentation lengkap** - technical & business
-5. 🔗 **Easy access** - link yang jelas dan working
+### Portfolio Best Practices:
+1. ✨ **Highlight insights** - jelaskan temuan bisnis
+2. 📊 **Quality screenshots** - full HD
+3. 🎨 **Clean design** - hindari clutter
+4. 📝 **Complete docs** - technical & business
+5. 🔗 **Easy access** - working links
 
-### Troubleshooting Common Issues:
+### Common Issues & Solutions:
 
-**❌ Dashboard tidak loading:**
-- Cek BigQuery quota
-- Refresh browser
-- Clear cache
+**Dashboard slow:**
+- Enable caching
+- Reduce date range
+- Use pre-aggregated tables
 
-**❌ Data tidak muncul di chart:**
-- Cek data source connection
+**Data not showing:**
+- Check BigQuery connection
 - Verify field mapping
-- Re-run SQL query
+- Re-run SQL queries
 
-**❌ Filter tidak bekerja:**
-- Pastikan apply to correct pages
+**Filters not working:**
 - Check dimension compatibility
+- Verify apply to pages
 
 ---
 
-## 📞 RESOURCES
+## 📞 SUPPORT & RESOURCES
 
-- **BigQuery Docs:** https://cloud.google.com/bigquery/docs
-- **Looker Studio Help:** https://support.google.com/datastudio
+### Documentation:
+- **BigQuery:** https://cloud.google.com/bigquery/docs
+- **Looker Studio:** https://support.google.com/datastudio
 - **SQL Tutorial:** https://www.w3schools.com/sql/
+
+### Contact:
+- **Email:** [detaerviana9@gmail.com]
+- **GitHub:** [detaerv]
+- **LinkedIn:** [Deta Erviana]
+
+---
+
+## 🙏 ACKNOWLEDGMENTS
+
+**Data Provider:** Kimia Farma (educational purposes)
+**Program:** Rakamin Academy - Data Analyst Bootcamp
+**Version:** 1.0
+**Last Updated:** October 18, 2025
 
 ---
 
 ## 🎉 SELAMAT!
 
-Dashboard Anda siap untuk:
-- ✅ Portfolio profesional
-- ✅ Presentasi klien
-- ✅ Showcase di LinkedIn
-- ✅ Interview data analyst
-
-**Good luck! 🚀**
+**Happy Analyzing! 📊✨**
 
 ---
 
-*Tutorial ini dibuat untuk Rakamin Academy - Data Analyst Bootcamp*
-*Last updated: October 2025*
+*Complete Guide: Dataset + Tutorial by Rakamin Academy*
