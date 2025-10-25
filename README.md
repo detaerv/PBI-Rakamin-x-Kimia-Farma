@@ -1,5 +1,5 @@
 # 📊 Kimia Farma Business Intelligence Dashboard
-## Complete Guide: Dataset, SQL Script, dan Dashboard Interaktif
+## Complete Guide: Dataset, SQL Script, Dashboard Interaktif, dan Interpretasi
 
 ---
 
@@ -21,6 +21,19 @@
 11. [Page 4: Customer Insights](#page-4-customer-insights)
 12. [Filters & Styling](#filters-styling)
 13. [Publish & GitHub Setup](#publish-github)
+
+### BAGIAN 3: INTERPRETASI DASHBOARD
+14. [Ringkasan Kinerja Umum](#1-ringkasan-kinerja-umum)
+15. [Pertumbuhan Penjualan Tahunan](#2-pertumbuhan-penjualan-tahunan-yoy)
+16. [Kinerja Provinsi dan Cabang](#3-kinerja-provinsi-dan-cabang)
+17. [Cabang Rating Tinggi - Aktivitas Rendah](#4-cabang-dengan-rating-tinggi-tapi-aktivitas-rendah)
+18. [Distribusi Profit per Provinsi](#5-distribusi-profit-per-provinsi)
+19. [Revenue Growth Bulanan](#6-revenue-growth-yoy-bulan-ke-bulan)
+20. [Analisis Pelanggan VIP](#7-top-10-vip-customers)
+21. [Analisis Diskon dan Margin](#8-analisis-diskon-dan-profit-margin)
+22. [Kinerja Mingguan](#9-analisis-kinerja-mingguan)
+23. [Revenue by Rating Category](#10-revenue-distribution-by-rating)
+24. [Kesimpulan Umum](#kesimpulan-umum)
 
 ---
 
@@ -332,21 +345,18 @@ Copy semua script SQL dari file `kimia_farma_analysis.sql`, paste ke BigQuery ed
 Setelah script selesai, pastikan tabel-tabel ini ada di dataset `kimia_farma`:
 
 ✅ **Checklist Tabel:**
-- [ ] kf_analysis (base table)
-- [ ] v_summary_kpi
-- [ ] v_top_branches
-- [ ] v_product_analysis
-- [ ] v_geographic_analysis
-- [ ] v_monthly_trends
-- [ ] v_customer_segmentation
-- [ ] v_discount_analysis
-- [ ] v_day_performance
-- [ ] v_rating_correlation
-- [ ] v_price_point_analysis
-- [ ] v_rating_gap_analysis
-
-**Cara Cek:**
-Panel kiri BigQuery → Dataset kimia_farma → Expand → Lihat semua tabel
+- [ ] `kf_analysis` (Base table)
+- [ ] `v_summary_kpi`
+- [ ] `v_top_branches`
+- [ ] `v_product_analysis`
+- [ ] `v_geographic_analysis`
+- [ ] `v_monthly_trends`
+- [ ] `v_customer_segmentation`
+- [ ] `v_discount_analysis`
+- [ ] `v_day_performance`
+- [ ] `v_rating_correlation`
+- [ ] `v_price_point_analysis`
+- [ ] `v_rating_gap_analysis`
 
 ---
 
@@ -354,163 +364,137 @@ Panel kiri BigQuery → Dataset kimia_farma → Expand → Lihat semua tabel
 
 ### Step 1: Buka Looker Studio
 ```
-1. Kunjungi: https://lookerstudio.google.com
-2. Login dengan akun Google yang SAMA dengan BigQuery
-3. Tunggu hingga halaman utama muncul
+1. Kunjungi: https://lookerstudio.google.com/
+2. Login dengan akun Google yang sama dengan BigQuery
 ```
 
-### Step 2: Buat Report Baru
-```
-1. Klik tombol "Create" (pojok kiri atas)
-2. Pilih "Report"
-3. Akan muncul "Add data to report"
-```
+### Step 2: Create Report
+1. **Create** → **Report**
+2. **Add data to report**
+3. **BigQuery** connector
+4. **CUSTOM QUERY**
 
 ---
 
 ## Membuat Data Sources
 
-**PENTING:** Buat **8 Data Source terpisah** untuk performa optimal.
+Buat 12 data sources dengan query berikut:
 
-### Data Source 1: KPI Summary
-
-1. Di popup "Add data to report", klik **"BigQuery"**
-2. Pilih **"CUSTOM QUERY"**
-3. Pilih Project: `rakamin-academi-data-analyst`
-4. Paste query:
-
+### 1. KPI Summary
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_summary_kpi`
 ```
 
-5. **CONNECT** → Rename: **"KPI Summary"** → **ADD TO REPORT**
-
-### Data Source 2: Top Branches
-
-1. **Resource** → **Manage added data sources**
-2. **ADD A DATA SOURCE**
-3. BigQuery → CUSTOM QUERY
-4. Paste query:
-
+### 2. Top Branches
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_top_branches`
 ```
 
-Name: **"Top Branches"**
-
-### Data Source 3: Geographic Analysis
-
-```sql
-SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_geographic_analysis`
-```
-
-Name: **"Geographic Analysis"**
-
-### Data Source 4: Monthly Trends
-
-```sql
-SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_monthly_trends`
-```
-
-Name: **"Monthly Trends"**
-
-### Data Source 5: Rating Gap
-
-```sql
-SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_rating_gap_analysis`
-```
-
-Name: **"Rating Gap Analysis"**
-
-### Data Source 6: Product Analysis
-
+### 3. Product Analysis
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_product_analysis`
 ```
 
-Name: **"Product Analysis"**
+### 4. Geographic Analysis
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_geographic_analysis`
+```
 
-### Data Source 7: Discount Analysis
+### 5. Monthly Trends
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_monthly_trends`
+```
 
+### 6. Customer Segmentation
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_customer_segmentation`
+```
+
+### 7. Discount Analysis
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_discount_analysis`
 ```
 
-Name: **"Discount Analysis"**
-
-### Data Source 8: Day Performance
-
+### 8. Day Performance
 ```sql
 SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_day_performance`
 ```
 
-Name: **"Day Performance"**
+### 9. Rating Correlation
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_rating_correlation`
+```
+
+### 10. Price Point Analysis
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_price_point_analysis`
+```
+
+### 11. Rating Gap Analysis
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.v_rating_gap_analysis`
+```
+
+### 12. Base Analysis
+```sql
+SELECT * FROM `rakamin-academi-data-analyst.kimia_farma.kf_analysis`
+```
 
 ---
 
 ## Page 1: Executive Summary
 
-### Layout Overview
+### Layout Suggestion
 ```
 ┌─────────────────────────────────────────────────┐
-│  LOGO  | KIMIA FARMA DASHBOARD | [FILTERS]     │
-├─────────────────────────────────────────────────┤
-│  [Revenue]  [Profit]  [Trans]  [Customers] [%] │  ← KPI Cards
-├─────────────────────────────────────────────────┤
-│           Revenue & Profit Trend                │  ← Line Chart
-│              (Time Series)                      │
+│         KPI Cards (4 cards)                     │
 ├──────────────────────┬─────────────────────────┤
-│  Top 5 Provinces     │   Profit Margin by Year │
-│    (Bar Chart)       │     (Gauge Chart)       │
-└──────────────────────┴─────────────────────────┘
+│   Revenue Trend      │  Top 5 Provinces        │
+├──────────────────────┴─────────────────────────┤
+│           Profit Margin Gauge                   │
+└─────────────────────────────────────────────────┘
 ```
 
-### A. Tambahkan Header
+### A. Header Title
 
-1. **Insert Text** (toolbar atas)
-   - Ketik: **"KIMIA FARMA BUSINESS DASHBOARD"**
-   - Font: Roboto Bold, Size: 32
-   - Warna: #0066CC (Biru)
-   - Posisi: Top-left
+1. **Add text** → Header
+2. Text: "Kimia Farma Performance Dashboard 2020-2023"
+3. Style:
+   - Font: Roboto Bold
+   - Size: 28px
+   - Color: #0066CC
+   - Align: Center
 
-2. **Insert Text** (subtitle)
-   - Ketik: "Periode 2020-2023 | Data Analytics Report"
-   - Font: Roboto Regular, Size: 14
-   - Warna: #666666
+### B. KPI Cards (Scorecard)
 
-### B. Buat KPI Scorecards (5 Cards)
+Create 4 scorecards dengan layout horizontal:
 
-**KPI 1: Total Revenue**
-
+**Card 1: Total Revenue**
 1. **Add a chart** → **Scorecard**
 2. Setup:
    - Data Source: **KPI Summary**
-   - Metric: **total_revenue_net**
+   - Metric: **total_sales**
+   - Label: "Total Revenue"
 3. Style:
-   - Metric Name: "Total Revenue (Net)"
-   - Number Format: Currency → IDR
-   - Compact Numbers: ON
-   - Font Size: 36
+   - Prefix: "Rp "
+   - Compact numbers: ON
+   - Background: Light blue (#E3F2FD)
 
-**KPI 2: Total Profit**
-- Metric: **total_profit**
-- Label: "Total Profit"
-- Format: Currency (IDR)
+**Card 2: Total Profit**
+1. Metric: **total_profit**
+2. Background: Light green (#E8F5E9)
 
-**KPI 3: Total Transactions**
-- Metric: **total_transactions**
-- Format: Number
+**Card 3: Total Transactions**
+1. Metric: **total_transactions**
+2. Background: Light orange (#FFF3E0)
 
-**KPI 4: Total Customers**
-- Metric: **total_customers**
-- Format: Number
+**Card 4: Average Rating**
+1. Metric: **avg_rating**
+2. Suffix: " / 5.0"
+3. Background: Light purple (#F3E5F5)
 
-**KPI 5: Profit Margin**
-- Metric: **profit_margin_percentage**
-- Format: Percent
-
-**Layout Tips:**
-- Susun 5 scorecard horizontal
+**Layout:**
+- Width: 25% each
 - Spacing: 20px antar card
 - Height: 120px semua card
 
@@ -790,15 +774,200 @@ kimia-farma-dashboard/
 └── TUTORIAL.md
 ```
 
-### D. README.md Template
 ---
 
-## 🖥️ Dashboard Preview
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/6ad964ce-4e9d-4e6b-9275-e3bb81158e9e" width="700" alt="Dashboard Preview">
-</p>
+# BAGIAN 3: INTERPRETASI DASHBOARD
+
+## 1. Ringkasan Kinerja Umum
+
+<img width="956" height="475" alt="image" src="https://github.com/user-attachments/assets/0d2551bb-57ba-402f-90e5-b967909b0253" />
+
+
+
+**Isi:**
+
+- 💰 **Total Sales:** Rp 347 Miliar
+- 📈 **Total Profit:** Rp 98,5 Miliar
+- 🛒 **Total Transactions:** 672,5 ribu
+- 💵 **Rata-rata Transaksi:** Rp 516,3 ribu
+- 🏪 **Total Branches:** 1.700 cabang
+- ⭐ **Average Rating:** 4,0
+
+**Interpretasi:**
+
+Secara keseluruhan, performa bisnis Kimia Farma dalam periode 2020–2023 menunjukkan stabilitas tinggi. Volume transaksi yang besar dan jumlah cabang yang luas menandakan jaringan distribusi dan layanan yang kuat di seluruh Indonesia.
+
+Rata-rata nilai transaksi (Rp 516 ribu) serta rating pelanggan 4,0 mencerminkan konsistensi kepuasan pelanggan.
+
+Namun, selisih antara total sales dan profit (±28%) menunjukkan masih ada ruang untuk efisiensi biaya operasional.
 
 ---
+
+## 2. Pertumbuhan Penjualan Tahunan (YoY)
+
+<img width="948" height="308" alt="image" src="https://github.com/user-attachments/assets/4e2f8838-90f5-4df1-a7df-982bc4070052" />
+
+
+
+
+**Interpretasi:**
+
+Tren penjualan tahunan Kimia Farma relatif stabil dengan nilai penjualan di kisaran Rp 86–87 miliar per tahun.
+
+Peningkatan tertinggi terjadi pada tahun 2022, namun penurunan tipis terlihat pada 2023 — kemungkinan dipengaruhi oleh fluktuasi permintaan pascapandemi dan perubahan pola pembelian pelanggan.
+
+Secara umum, performa tahunan yang konsisten ini menunjukkan ketahanan bisnis jangka panjang, namun strategi pertumbuhan baru masih dibutuhkan untuk mendorong ekspansi di tahun-tahun berikutnya.
+
+---
+
+## 3. Kinerja Provinsi dan Cabang
+
+<img width="944" height="412" alt="image" src="https://github.com/user-attachments/assets/9dfd8380-363a-4930-83d6-9073f87751fc" />
+
+
+
+**Interpretasi:**
+
+Provinsi dengan kontribusi tertinggi adalah:
+- **Maluku** – Rp 238,8 juta
+- **Jawa Tengah** – Rp 237,8 juta
+- **Sumatera Utara** – Rp 236,2 juta
+
+Sementara dari sisi jumlah transaksi, Sumatera Utara dan Sulawesi Utara menempati posisi teratas.
+
+Artinya, walau wilayah barat Indonesia masih mendominasi pendapatan, aktivitas pelanggan di wilayah timur seperti Maluku mulai meningkat signifikan.
+
+📌 **Insight penting:** Kimia Farma perlu memperkuat distribusi logistik dan strategi pemasaran di wilayah tengah-timur karena kontribusinya terus tumbuh.
+
+---
+
+## 4. Cabang dengan Rating Tinggi tapi Aktivitas Rendah
+
+<img width="950" height="225" alt="image" src="https://github.com/user-attachments/assets/2d064b4b-dd5c-499b-84c3-a25e3c30e739" />
+
+
+
+**Interpretasi:**
+
+Beberapa cabang seperti Kepulauan Riau, Kalimantan Utara, dan Bangka Belitung mendapat rating sempurna (5,0) tetapi memiliki aktivitas transaksi rendah.
+
+Fenomena ini menunjukkan bahwa pelayanan pelanggan sangat baik, tetapi volume penjualan belum optimal — kemungkinan karena minim promosi lokal atau daya beli wilayah lebih rendah.
+
+💡 **Rekomendasi:** lakukan targeted marketing dan product bundling di cabang ber-rating tinggi agar potensi customer retention bisa dimaksimalkan.
+
+---
+
+## 5. Distribusi Profit per Provinsi
+
+<img width="973" height="442" alt="image" src="https://github.com/user-attachments/assets/b2612a91-6de7-48f9-a816-27af5051302b" />
+
+
+
+**Interpretasi:**
+
+Profit tertinggi terkonsentrasi di Jawa Barat, Jawa Tengah, Kalimantan Timur, dan Sumatera Utara, masing-masing menghasilkan puluhan miliar rupiah.
+
+Sedangkan wilayah timur seperti Nusa Tenggara dan Maluku menghasilkan margin lebih kecil, menunjukkan adanya disparitas geografis dalam kontribusi keuntungan.
+
+Hal ini bisa menjadi dasar untuk meninjau kembali alokasi stok, strategi harga, dan kebutuhan ekspansi cabang di wilayah timur.
+
+---
+
+## 6. Revenue Growth YoY (Bulan ke Bulan)
+
+<img width="501" height="335" alt="image" src="https://github.com/user-attachments/assets/9ae66b65-b71b-4192-a25c-9e4fc7323015" />
+
+
+
+**Interpretasi:**
+
+Perubahan pendapatan bulanan memperlihatkan fluktuasi yang cukup signifikan, dengan beberapa bulan mengalami penurunan besar (misal -226 juta pada Februari).
+
+Peningkatan positif paling konsisten terlihat pada kuartal ketiga (Juli–September).
+
+📈 Hal ini menunjukkan bahwa puncak aktivitas penjualan terjadi pertengahan tahun, kemungkinan dipengaruhi oleh peningkatan permintaan obat dan produk kesehatan di musim tertentu.
+
+---
+
+## 7. Top 10 VIP Customers
+
+<img width="419" height="378" alt="image" src="https://github.com/user-attachments/assets/175ae846-1078-4fa9-ab8b-18eb0561f4fc" />
+
+
+
+
+**Interpretasi:**
+
+Seluruh pelanggan dengan total transaksi terbanyak termasuk kategori VIP Loyal, dengan nama-nama seperti Michael Smith dan Jennifer Smith (fiktif data anonim).
+
+Ini menunjukkan sistem loyalitas Kimia Farma berjalan efektif — pelanggan dengan volume tinggi tetap aktif bertransaksi secara konsisten.
+
+💡 **Insight:** strategi loyalty rewards dan personalisasi promosi dapat dipertahankan bahkan diperluas ke segmen non-VIP untuk meningkatkan engagement.
+
+---
+
+## 8. Analisis Diskon dan Profit Margin
+
+<img width="494" height="346" alt="image" src="https://github.com/user-attachments/assets/b189de59-357d-4c5b-a7e8-a5eeb1c2dab0" />
+
+
+
+**Interpretasi:**
+
+Cabang dengan diskon 1–5% menghasilkan revenue tertinggi (Rp 335,5 miliar) dan margin optimal (±11,5%).
+
+Sementara diskon lebih besar (>10%) justru menurunkan profit margin.
+
+📊 Artinya, strategi potongan harga moderat lebih efektif daripada agresif — karena tetap mendorong pembelian tanpa mengorbankan margin keuntungan.
+
+---
+
+## 9. Analisis Kinerja Mingguan
+
+<img width="435" height="349" alt="image" src="https://github.com/user-attachments/assets/459eb92a-67df-4a7e-b5ee-cc3a886a58ca" />
+
+
+
+**Interpretasi:**
+
+Penjualan tertinggi terjadi pada hari Senin dan Jumat, sedangkan paling rendah pada akhir pekan.
+
+Pola ini konsisten dengan perilaku konsumen apotek dan klinik — di mana pembelian biasanya meningkat di awal minggu (resep baru) dan menjelang akhir minggu (persiapan akhir pekan).
+
+💡 **Insight operasional:** cabang bisa meningkatkan stok atau promosi pada dua hari tersebut untuk memaksimalkan pendapatan.
+
+---
+
+## 10. Revenue Distribution by Rating
+
+<img width="938" height="410" alt="image" src="https://github.com/user-attachments/assets/e1df9320-b119-4d97-bee8-0397e144d7d7" />
+
+
+
+**Interpretasi:**
+
+Kategori dengan rating "Excellent (4.5–5.0)" menyumbang pendapatan tertinggi (sekitar Rp 160 miliar).
+
+Menunjukkan adanya hubungan positif antara kepuasan pelanggan dan pendapatan — semakin tinggi rating, semakin besar revenue cabang tersebut.
+
+📈 Hal ini memperkuat bukti bahwa layanan pelanggan berkualitas langsung berdampak pada performa finansial.
+
+---
+
+## Kesimpulan Umum
+
+✅ Performa bisnis stabil dan merata di seluruh cabang besar, namun masih ada potensi peningkatan di wilayah timur.
+
+✅ Strategi diskon moderat (1–5%) terbukti paling menguntungkan.
+
+✅ Kualitas layanan pelanggan tinggi menjadi kekuatan utama Kimia Farma.
+
+✅ Diperlukan strategi optimasi cabang ber-rating tinggi namun low sales agar potensi pertumbuhan lebih merata.
+
+Dashboard ini memberikan dasar kuat bagi pengambilan keputusan berbasis data (data-driven strategy).
+
+---
+
 
 ## 🧠 Tech Stack
 - **Google BigQuery**
@@ -815,19 +984,23 @@ kimia-farma-dashboard/
 
 ---
 
-## 📁 Files
-- `sql/` → SQL analysis scripts  
-- `data/` → Raw & processed datasets  
-- `docs/` → Dashboard documentation  
-- `README.md` → Project overview  
+## 📁 Repository Structure
+```
+kimia-farma-dashboard/
+├── sql/               → SQL analysis scripts  
+├── data/              → Raw & processed datasets  
+├── screenshots/       → Dashboard visualizations
+├── docs/              → Documentation
+└── README.md          → Complete project guide
+```
 
 ---
 
 ## 📞 Support & Resources
 
 ### 📘 Documentation
-- **BigQuery:** [Link](https://console.cloud.google.com/bigquery?ws=!1m7!1m6!12m5!1m3!1sRAKAMIN-ACADEMI-DATA-ANALYST!2sUS-CENTRAL1!3s84D236)  
-- **Looker Studio:** [Link](https://lookerstudio.google.com/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83)
+- **BigQuery:** [Console Link](https://console.cloud.google.com/bigquery?ws=!1m7!1m6!12m5!1m3!1sRAKAMIN-ACADEMI-DATA-ANALYST!2sUS-CENTRAL1!3s84D236)  
+- **Looker Studio:** [Dashboard Link](https://lookerstudio.google.com/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83)
 
 ### 👤 Contact
 - **Email:** [detaerviana9@gmail.com](mailto:detaerviana9@gmail.com)  
@@ -839,8 +1012,7 @@ kimia-farma-dashboard/
 ## 🙏 Acknowledgments
 **Data Provider:** Kimia Farma (educational purposes)  
 **Program:** Rakamin Academy – Data Analyst Bootcamp  
-**Version:** 1.0  
-**Last Updated:** October 18, 2025  
+**Version:** 2.0  
+**Last Updated:** January 18, 2025  
 
-*Complete Guide: Dataset + Tutorial by Rakamin Academy*
-
+*Complete Guide: Dataset + Tutorial + Interpretation by Rakamin Academy*
