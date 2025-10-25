@@ -791,55 +791,56 @@ kimia-farma-dashboard/
 ```
 
 ### D. README.md Template
+---
 
-```markdown
-# 📊 Kimia Farma Business Intelligence Dashboard
+## 🖥️ Dashboard Preview
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6ad964ce-4e9d-4e6b-9275-e3bb81158e9e" width="700" alt="Dashboard Preview">
+</p>
 
-## 📥 Dataset
-**[Download Dataset (45MB)](https://drive.google.com/drive/u/0/folders/1L318uziHRRDufX6ybwas0--bAEbISA8B)**
+---
 
-## 📸 Dashboard Preview
-<img width="337" height="1079" alt="image" src="https://github.com/user-attachments/assets/6ad964ce-4e9d-4e6b-9275-e3bb81158e9e" />
+## 🧠 Tech Stack
+- **Google BigQuery**
+- **Looker Studio**
+- **SQL Analytics**
 
+---
 
-## 🛠️ Tech Stack
-- Google BigQuery
-- Looker Studio
-- SQL Analytics
+## 📚 Features
+- 🔹 4 Interactive Pages  
+- 🔹 12+ Visualizations  
+- 🔹 Real-time Filtering  
+- 🔹 Geographic Analysis  
 
-## 📊 Features
-- 4 Interactive Pages
-- 12+ Visualizations
-- Real-time Filtering
-- Geographic Analysis
+---
 
 ## 📁 Files
-- `sql/` - SQL analysis scripts
-- `screenshots/` - Dashboard previews
-- `data/DATASET.md` - Complete dataset documentation
+- `sql/` → SQL analysis scripts  
+- `data/` → Raw & processed datasets  
+- `docs/` → Dashboard documentation  
+- `README.md` → Project overview  
 
 ---
 
-## 📞 SUPPORT & RESOURCES
+## 📞 Support & Resources
 
-### Documentation:
-- **BigQuery:** [https://console.cloud.google.com/bigquery?ws=!1m7!1m6!12m5!1m3!1srakamin-academi-data-analyst!2sus-central1!3s84d23636-5600-42df-a28f-3c54033b2f41!2e1]
-- **Looker Studio:** [https://lookerstudio.google.com/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83]
-  
-### Contact:
-- **Email:** [detaerviana9@gmail.com]
-- **GitHub:** [detaerv]
-- **LinkedIn:** [Deta Erviana]
+### 📘 Documentation
+- **BigQuery:** [Link](https://console.cloud.google.com/bigquery?ws=!1m7!1m6!12m5!1m3!1sRAKAMIN-ACADEMI-DATA-ANALYST!2sUS-CENTRAL1!3s84D236)  
+- **Looker Studio:** [Link](https://lookerstudio.google.com/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83)
 
----
-
-## 🙏 ACKNOWLEDGMENTS
-
-**Data Provider:** Kimia Farma (educational purposes)
-**Program:** Rakamin Academy - Data Analyst Bootcamp
-**Version:** 1.0
-**Last Updated:** October 18, 2025
+### 👤 Contact
+- **Email:** [detaerviana9@gmail.com](mailto:detaerviana9@gmail.com)  
+- **GitHub:** [@detaerv](https://github.com/detaerv)  
+- **LinkedIn:** [Deta Erviana](https://www.linkedin.com/in/detaerviana)
 
 ---
+
+## 🙏 Acknowledgments
+**Data Provider:** Kimia Farma (educational purposes)  
+**Program:** Rakamin Academy – Data Analyst Bootcamp  
+**Version:** 1.0  
+**Last Updated:** October 18, 2025  
 
 *Complete Guide: Dataset + Tutorial by Rakamin Academy*
+
