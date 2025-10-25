@@ -819,67 +819,15 @@ kimia-farma-dashboard/
 - `sql/` - SQL analysis scripts
 - `screenshots/` - Dashboard previews
 - `data/DATASET.md` - Complete dataset documentation
-```
-
----
-
-## ✅ CHECKLIST FINAL
-
-**BigQuery:**
-- [ ] Dataset uploaded
-- [ ] 12 tabel berhasil dibuat
-- [ ] Queries berjalan tanpa error
-
-**Looker Studio:**
-- [ ] 4 pages complete
-- [ ] All charts display data
-- [ ] Filters working
-- [ ] Mobile responsive
-- [ ] Public link active
-
-**GitHub:**
-- [ ] README.md complete
-- [ ] Screenshots uploaded
-- [ ] SQL script uploaded
-- [ ] Dataset link included
-- [ ] Dashboard link working
-
----
-
-## 🎯 TIPS SUKSES
-
-### Portfolio Best Practices:
-1. ✨ **Highlight insights** - jelaskan temuan bisnis
-2. 📊 **Quality screenshots** - full HD
-3. 🎨 **Clean design** - hindari clutter
-4. 📝 **Complete docs** - technical & business
-5. 🔗 **Easy access** - working links
-
-### Common Issues & Solutions:
-
-**Dashboard slow:**
-- Enable caching
-- Reduce date range
-- Use pre-aggregated tables
-
-**Data not showing:**
-- Check BigQuery connection
-- Verify field mapping
-- Re-run SQL queries
-
-**Filters not working:**
-- Check dimension compatibility
-- Verify apply to pages
 
 ---
 
 ## 📞 SUPPORT & RESOURCES
 
 ### Documentation:
-- **BigQuery:** https://cloud.google.com/bigquery/docs
-- **Looker Studio:** https://support.google.com/datastudio
-- **SQL Tutorial:** https://www.w3schools.com/sql/
-
+- **BigQuery:** https://lookerstudio.google.com/u/1/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83/page/RIQbF/edit
+- **Looker Studio:** https://console.cloud.google.com/bigquery?authuser=1&hl=en&project=rakamin-academi-data-analyst&ws=!1m7!1m6!12m5!1m3!1srakamin-academi-data-analyst!2sus-central1!3s84d23636-5600-42df-a28f-3c54033b2f41!2e1
+  
 ### Contact:
 - **Email:** [detaerviana9@gmail.com]
 - **GitHub:** [detaerv]
@@ -893,12 +841,6 @@ kimia-farma-dashboard/
 **Program:** Rakamin Academy - Data Analyst Bootcamp
 **Version:** 1.0
 **Last Updated:** October 18, 2025
-
----
-
-## 🎉 SELAMAT!
-
-**Happy Analyzing! 📊✨**
 
 ---
 
