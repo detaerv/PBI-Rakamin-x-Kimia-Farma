@@ -795,14 +795,12 @@ kimia-farma-dashboard/
 ```markdown
 # 📊 Kimia Farma Business Intelligence Dashboard
 
-## 🔴 LIVE DASHBOARD
-**[VIEW DASHBOARD](your-looker-studio-link)**
-
 ## 📥 Dataset
-**[Download Dataset (45MB)](your-google-drive-link)**
+**[Download Dataset (45MB)](https://drive.google.com/drive/u/0/folders/1L318uziHRRDufX6ybwas0--bAEbISA8B)**
 
 ## 📸 Dashboard Preview
-![Executive Summary](screenshots/page1-executive-summary.png)
+<img width="337" height="1079" alt="image" src="https://github.com/user-attachments/assets/6ad964ce-4e9d-4e6b-9275-e3bb81158e9e" />
+
 
 ## 🛠️ Tech Stack
 - Google BigQuery
@@ -825,8 +823,8 @@ kimia-farma-dashboard/
 ## 📞 SUPPORT & RESOURCES
 
 ### Documentation:
-- **BigQuery:** https://lookerstudio.google.com/u/1/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83/page/RIQbF/edit
-- **Looker Studio:** https://console.cloud.google.com/bigquery?authuser=1&hl=en&project=rakamin-academi-data-analyst&ws=!1m7!1m6!12m5!1m3!1srakamin-academi-data-analyst!2sus-central1!3s84d23636-5600-42df-a28f-3c54033b2f41!2e1
+- **BigQuery:** [https://console.cloud.google.com/bigquery?ws=!1m7!1m6!12m5!1m3!1srakamin-academi-data-analyst!2sus-central1!3s84d23636-5600-42df-a28f-3c54033b2f41!2e1]
+- **Looker Studio:** [https://lookerstudio.google.com/reporting/816e6a7a-8532-45cf-9b4d-b7a96065bb83]
   
 ### Contact:
 - **Email:** [detaerviana9@gmail.com]
